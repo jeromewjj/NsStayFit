@@ -73,6 +73,7 @@
 		}
 	},
 	"mt-5": {
+	"flex": {
 		"style": {
 			"marginTop": 20
 		}
@@ -135,6 +136,14 @@
 	"w-4/5": {
 		"style": {
 			"width": "80%"
+	"h-16": {
+		"style": {
+			"height": 64
+		}
+	},
+	"h-40": {
+		"style": {
+			"height": 160
 		}
 	},
 	"w-0": {
@@ -248,6 +257,10 @@
 		"style": {
 			"fontSize": 30,
 			"lineHeight": 36
+	"text-lg": {
+		"style": {
+			"fontSize": 18,
+			"lineHeight": 28
 		}
 	},
 	"text-xl": {
@@ -271,12 +284,6 @@
 	"font-bold": {
 		"style": {
 			"fontWeight": "700"
-		}
-	},
-	"text-blue-600": {
-		"style": {
-			"--tw-text-opacity": 1,
-			"color": "rgb(37 99 235 / var(--tw-text-opacity))"
 		}
 	}
 }

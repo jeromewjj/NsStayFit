@@ -93,6 +93,10 @@
   height: 80%
 }
 
+.flex {
+  display: flex
+}
+
 .h-20 {
   height: 5rem
 }
@@ -107,6 +111,12 @@
 
 .w-4\/5 {
   width: 80%
+.h-16 {
+  height: 4rem
+}
+
+.h-40 {
+  height: 10rem
 }
 
 .w-0 {
@@ -187,6 +197,9 @@
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem
 }
 
 .text-xl {
@@ -206,9 +219,4 @@
 
 .font-bold {
   font-weight: 700
-}
-
-.text-blue-600 {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity))
 }

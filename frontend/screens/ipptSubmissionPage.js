@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {useTailwind} from 'tailwind-rn';
 import { Button, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
 import { useFormik } from "formik";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from 'react-native';
-
+import * as ImagePicker from 'expo-image-picker';
+// import {pickImage} from './imagePicker';
+import { Dimensions } from 'react-native';
+const windowHeight = Dimensions.get('window').height;
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
-    const title = ["2.4 km run", "Sit-up", "Push-up"];
+    const title = ["2.4 km run", "Sit-up", "Push-up"];    
 
     const { values, handleChange, errors, touched, handleSubmit } = useFormik({
         initialValues: {
@@ -15,12 +18,35 @@ export default SubmitIpptPage = () => {
             runningSec: "",
             situp: "",
             pushup: "",
+            situpVideo: "",
+            pushUpVideo: "",
+            runVideo: "",
         },
 
         onSubmit: () => {
             //TODO: upload data to database
         },
     });
+
+    const pickImage = async (item) => {
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.cancelled) {
+            if (item == 'Push-up') {
+                values.pushUpVideo = result.uri
+            } else if (item == 'Sit-up') {
+                values.situpVideo = result.uri
+            } else {
+                values.runVideo = result.uri
+            }
+        }
+    };
 
     const layoutForRun = (
         <Layout style={tailwind('')}>
@@ -106,6 +132,7 @@ export default SubmitIpptPage = () => {
                             </Layout>
                             <Button 
                                 style={tailwind('mx-36')}
+                                onPress={()=>pickImage(item)}
                                 size='small'>Upload </Button>
                         </Layout>
                     </Layout>
@@ -127,13 +154,11 @@ export default SubmitIpptPage = () => {
             <Layout style={tailwind('bg-[#d9d9d9] h-16')}>
                 <Text style={tailwind('font-bold text-2xl text-center top-4')}> Submit Your Scores!</Text>
             </Layout>
-            <Layout> 
-                <List
-                    style={styles.container}
-                    data={title}
-                    renderItem={renderItem}
-                />
-            </Layout>
+            <List
+                style={styles.container}
+                data={title}
+                renderItem={renderItem}
+            />
             <Layout style={tailwind('bg-[#d9d9d9] h-40')}>
                 <Button 
                     style={tailwind('mx-36 top-2')}
@@ -149,6 +174,6 @@ export default SubmitIpptPage = () => {
 
 const styles = StyleSheet.create({
     container: {
-        maxHeight: 490,
+        maxHeight: windowHeight-190,
     },
 });
