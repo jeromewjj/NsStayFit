@@ -4,6 +4,7 @@ import { Text, Card } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native'
 
+
 export default HomePage = () => {
 
     const tailwind = useTailwind();
