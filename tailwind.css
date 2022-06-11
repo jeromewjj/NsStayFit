@@ -42,11 +42,6 @@
   top: 0.5rem
 }
 
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem
-}
-
 .mx-40 {
   margin-left: 10rem;
   margin-right: 10rem
@@ -55,6 +50,11 @@
 .mx-36 {
   margin-left: 9rem;
   margin-right: 9rem
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem
 }
 
 .mt-5 {
@@ -85,18 +85,6 @@
   display: flex
 }
 
-.h-16 {
-  height: 4rem
-}
-
-.h-4\/5 {
-  height: 80%
-}
-
-.flex {
-  display: flex
-}
-
 .h-20 {
   height: 5rem
 }
@@ -105,18 +93,16 @@
   height: 2.5rem
 }
 
-.h-40 {
-  height: 10rem
-}
-
-.w-4\/5 {
-  width: 80%
 .h-16 {
   height: 4rem
 }
 
 .h-40 {
   height: 10rem
+}
+
+.h-4\/5 {
+  height: 80%
 }
 
 .w-0 {
@@ -137,6 +123,10 @@
 
 .w-40 {
   width: 10rem
+}
+
+.w-4\/5 {
+  width: 80%
 }
 
 .flex-1 {
@@ -180,23 +170,20 @@
   border-color: rgb(0 0 0 / var(--tw-border-opacity))
 }
 
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity))
-}
-
 .bg-\[\#d9d9d9\] {
   --tw-bg-opacity: 1;
   background-color: rgb(217 217 217 / var(--tw-bg-opacity))
+}
+
+.bg-slate-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity))
 }
 
 .text-center {
   text-align: center
 }
 
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem
@@ -212,9 +199,9 @@
   line-height: 2rem
 }
 
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem
 }
 
 .font-bold {

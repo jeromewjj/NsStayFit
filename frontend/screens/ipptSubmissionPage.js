@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useTailwind} from 'tailwind-rn';
-import { Button, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
+import { Button, List, ListItem, Layout, Input, Text, Popover } from '@ui-kitten/components';
 import { useFormik } from "formik";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from 'react-native';
@@ -11,6 +11,7 @@ const windowHeight = Dimensions.get('window').height;
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
     const title = ["2.4 km run", "Sit-up", "Push-up"];    
+    const [visible, setVisible] = React.useState(false);
 
     const { values, handleChange, errors, touched, handleSubmit } = useFormik({
         initialValues: {
@@ -25,8 +26,31 @@ export default SubmitIpptPage = () => {
 
         onSubmit: () => {
             //TODO: upload data to database
+            formSubmissionVerification()
+            
         },
     });
+
+    const formSubmissionVerification = () => {
+
+        const renderToggleButton = () => (
+            <Button onPress={() => setVisible(true)}>
+              TOGGLE POPOVER
+            </Button>
+        );
+
+        <Popover
+            backdropStyle={styles.backdrop}
+            visible={visible}
+            anchor={renderToggleButton}
+            onBackdropPress={() => setVisible(false)}>
+            <Layout style={styles.content}>
+                <Text>
+                    Welcome to UI Kitten 😻
+                </Text>
+            </Layout>
+        </Popover>
+    }
 
     const pickImage = async (item) => {
         // No permissions request is necessary for launching the image library
@@ -176,4 +200,19 @@ const styles = StyleSheet.create({
     container: {
         maxHeight: windowHeight-190,
     },
+    backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    content: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 4,
+        paddingVertical: 8,
+      },
+      avatar: {
+        marginHorizontal: 4,
+      },
+      backdrop: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
 });
