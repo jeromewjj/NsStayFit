@@ -6,5 +6,5 @@ export default HomePage = () => {
 
     const tailwind = useTailwind();
 
-    return <Text style={tailwind('pt-12 text-blue-600')}>Home Page</Text>;
+    return <Text style={tailwind('text-blue-600')}>Home Page</Text>;
   }
