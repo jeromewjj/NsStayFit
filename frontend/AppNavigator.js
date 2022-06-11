@@ -32,7 +32,7 @@ export const AppNavigator = () => {
             <Drawer.Navigator initialRouteName="Login" screenOptions={{ headerShown: true }}>
                 <Drawer.Screen name="Login" component={LoginPage} />
                 <Drawer.Screen name="Register" component={RegistrationPage} />
-                <Drawer.Screen name="View Ippt Score" component={HomePage} />
+                <Drawer.Screen name="View Ippt Score" component={HomePage} options={{headerShown: false}}/>
                 <Drawer.Screen name="Submit Ippt" component={SubmitIpptPage} />
                 <Drawer.Screen name="Do Ns Fit" component={NsFitPage} />
             </Drawer.Navigator>
