@@ -166,6 +166,10 @@
   left: 7rem
 }
 
+.right-44 {
+  right: 11rem
+}
+
 .m-1 {
   margin: 0.25rem
 }
@@ -257,6 +261,11 @@
   margin-right: 9rem
 }
 
+.mx-24 {
+  margin-left: 6rem;
+  margin-right: 6rem
+}
+
 .flex {
   display: flex
 }
@@ -303,6 +312,34 @@
 
 .h-10 {
   height: 2.5rem
+}
+
+.h-14 {
+  height: 3.5rem
+}
+
+.h-16 {
+  height: 4rem
+}
+
+.h-max {
+  height: max-content
+}
+
+.h-min {
+  height: min-content
+}
+
+.h-24 {
+  height: 6rem
+}
+
+.h-80 {
+  height: 20rem
+}
+
+.h-96 {
+  height: 24rem
 }
 
 .max-h-2 {
@@ -464,6 +501,21 @@
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem
 }
 
 .font-bold {
