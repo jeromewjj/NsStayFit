@@ -5,7 +5,7 @@ import {useTailwind} from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
 
 export default LoginPage = () => {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation()
@@ -24,9 +24,9 @@ export default LoginPage = () => {
         >
             <View style={styles.inputContainer}>
             <TextInput
-                placeholder="Username"
-                value={username}
-                onChangeText={text => setUsername(text)}
+                placeholder="Email"
+                value={email}
+                onChangeText={text => setEmail(text)}
                 style={styles.input}
             />
             <TextInput
