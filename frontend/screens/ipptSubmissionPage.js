@@ -1,14 +1,28 @@
 import React from 'react';
 import {useTailwind} from 'tailwind-rn';
-import { Button, Icon, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
+import { Button, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
+import { useFormik } from "formik";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from 'react-native';
 
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
-    const title = ["2.4 km run", "Sit-ups", "Push-ups"];
+    const title = ["2.4 km run", "Sit-up", "Push-up"];
 
-    const LayoutForRun = (
+    const { values, handleChange, errors, touched, handleSubmit } = useFormik({
+        initialValues: {
+            runningMin: "",
+            runningSec: "",
+            situp: "",
+            pushup: "",
+        },
+
+        onSubmit: () => {
+            //TODO: upload data to database
+        },
+    });
+
+    const layoutForRun = (
         <Layout style={tailwind('')}>
             
             <Layout style={tailwind('flex-row h-20 items-center left-8 w-0')}>
@@ -22,8 +36,9 @@ export default SubmitIpptPage = () => {
                         <Input
                             style={tailwind('mx-40 w-14')}
                             keyboardType="numeric"
-                            value={''}
-                            // onChangeText={handleChange("weight")}
+                            value={values.runningMin}
+                            placeholder= {"0"}
+                            onChangeText={handleChange("runningMin")}
                             maxLength={5}
                         />
                     </Layout>
@@ -37,8 +52,9 @@ export default SubmitIpptPage = () => {
                         <Input
                             style={tailwind('mx-40 w-14 right-20')}
                             keyboardType="numeric"
-                            value={''}
-                            // onChangeText={handleChange("weight")}
+                            placeholder= {"0"}
+                            value={values.runningSec}
+                            onChangeText={handleChange("runningSec")}
                             maxLength={5}
                         />
                     </Layout>
@@ -52,24 +68,26 @@ export default SubmitIpptPage = () => {
         </Layout>
     )
 
-    const LayoutForSitupAndPushup = (
-        <Layout style={tailwind("flex-row h-20 items-center left-28 w-0")}>
-            <Layout style={tailwind('flex-row left-2 w-20')}>
-                <Text style={tailwind('text-center text-lg')}>Reps:</Text>
-            </Layout>
+    const layoutForSitupAndPushup = (props) => {
+        return (
+            <Layout style={tailwind("flex-row h-20 items-center left-28 w-0")}>
+                <Layout style={tailwind('flex-row left-2 w-20')}>
+                    <Text style={tailwind('text-center text-lg')}>Reps:</Text>
+                </Layout>
+                <Layout style={tailwind('w-0 flex-row items-center right-44')}>
+                    <Input
+                        style={tailwind("w-14 mx-40")}
+                        keyboardType="numeric"
+                        placeholder= {"0"}
+                        value={props == 'Sit-up' ? values.situp : values.pushup}
+                        onChangeText={handleChange(props == 'Sit-up' ? "situp" : "pushup")}
+                        maxLength={5}
+                    />
+                </Layout>
 
-            <Layout style={tailwind('w-0 flex-row items-center right-44')}>
-                <Input
-                    style={tailwind("w-14 mx-40")}
-                    keyboardType="numeric"
-                    value={''}
-                    // onChangeText={handleChange("weight")}
-                    maxLength={5}
-                />
             </Layout>
-
-        </Layout>
-    )
+        )
+    }
 
     const tileView = (item) => {
         return (
@@ -81,7 +99,7 @@ export default SubmitIpptPage = () => {
                         </Layout>
                     </Layout>
                     <Layout style={tailwind('flex-col')}>
-                        {item == '2.4 km run' ? LayoutForRun : LayoutForSitupAndPushup}
+                        {item == '2.4 km run' ? layoutForRun : layoutForSitupAndPushup(item)}
                         <Layout style={tailwind('flex-col')}>
                             <Layout style={tailwind('h-10')}>
                                 <Text style={tailwind('text-center text-lg')}>Choose file to upload:</Text>
@@ -95,27 +113,14 @@ export default SubmitIpptPage = () => {
             </TouchableWithoutFeedback>
         )
     }
-    
-    // const renderItemAccessory = (props) => (
-    //     <Layout >
-    //         <Button 
-    //             style={tailwind('m-1')}
-    //             size='tiny'>Upload</Button>
-    //     </Layout>
-    // );
-
-        
-    // const renderItemIcon = (props) => (
-    //     <Icon {...props} name='person'/>
-    // );
 
     const renderItem = ({ item, index }) => (
-            <ListItem
-                style={{height: 230}}
-                // title={`${item}`}
-                description={tileView(item)}
-            />
-);
+        <ListItem
+            style={{height: 230}}
+            // title={`${item}`}
+            description={tileView(item)}
+        />
+    );
 
     return (
         <Layout>
@@ -132,7 +137,11 @@ export default SubmitIpptPage = () => {
             <Layout style={tailwind('bg-[#d9d9d9] h-40')}>
                 <Button 
                     style={tailwind('mx-36 top-2')}
-                    size='small'>Submit </Button>
+                    size='small'
+                    onPress={handleSubmit}>
+                        Submit 
+                </Button>
+                    
             </Layout>
         </Layout>
     );
@@ -142,12 +151,4 @@ const styles = StyleSheet.create({
     container: {
         maxHeight: 490,
     },
-    element: {
-        height: 100,
-    },
-    buttons: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
 });

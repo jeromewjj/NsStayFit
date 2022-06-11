@@ -342,6 +342,11 @@
 			"marginRight": 96
 		}
 	},
+	"mr-2": {
+		"style": {
+			"marginRight": 8
+		}
+	},
 	"flex": {
 		"style": {
 			"display": "flex"
