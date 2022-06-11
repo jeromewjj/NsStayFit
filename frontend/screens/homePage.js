@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTailwind} from 'tailwind-rn';
-import { Card, Layout, Text, ViewPager } from '@ui-kitten/components';
+import { Text, Card } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native'
 
@@ -9,7 +9,7 @@ export default HomePage = () => {
     const tailwind = useTailwind();
     const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-    return(
+    return (
         <View style={styles.layoutStyles}>
             <View>
                 <Text style={styles.title}>Welcome Back!</Text>
@@ -23,30 +23,27 @@ export default HomePage = () => {
             <View>
                 <Text style={styles.awardIncentives}>Award: Gold{'\n'}Expected Incentives: $500</Text>
             </View>
-            
-            <ViewPager
-                onSelect={index => setSelectedIndex(index)}>
-                <Layout style={styles.tab} level='2'>
-                    <Card>
-                        <Text category='h5'>Take care of your body. It's the only place you have to live.</Text>
-                    </Card>
-                </Layout>
-            </ViewPager>
+
+            <View>
+                <Card style={styles.tab}>
+                    <Text category='h5'>“All progress takes place outside the comfort zone.”- Michal Joan Bobak</Text>
+                </Card>
+            </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
 
     layoutStyles: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
     },
 
     title: {
       fontSize: 45,
       fontWeight: 'bold',
-      marginTop: 30,
+      marginTop: 50,
       textAlign: 'center',
     },
 
@@ -80,10 +77,9 @@ const styles = StyleSheet.create({
     },
 
     tab: {
-        height: 192,
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 30,
         backgroundColor: "transparent",
-        marginBottom: 30
     },
   })
