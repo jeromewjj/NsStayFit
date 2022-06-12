@@ -45,10 +45,17 @@ export default HomePage = () => {
                 <Text style={styles.title}>Welcome Back!</Text>
             </View>
 
-            <View style={styles.circle}>
+
+            { ipptScore <= 50
+            
+                ? <View style={styles.failCircle}>
                 <Text style={styles.score}>{ipptScore}</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text>
-            </View>
+                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+
+                : <View style={styles.passCircle}>
+                <Text style={styles.score}>{ipptScore}</Text>
+                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+            }
             
             <View>
                 <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
@@ -77,7 +84,20 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
 
-    circle: {
+
+    failCircle: {
+        width: 250,
+        height: 250,
+        borderRadius: 125,
+        borderWidth: 2,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        backgroundColor: "#FAA0A0",
+        marginTop: 30,
+    },
+
+    passCircle: {
         width: 250,
         height: 250,
         borderRadius: 125,
