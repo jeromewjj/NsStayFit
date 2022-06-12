@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import {useTailwind} from 'tailwind-rn';
-import { Text, Card } from '@ui-kitten/components';
+import { Text, Card, TopNavigationAction } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native'
-
+import QueryIpptDatabase from '../../backend/homepage/GetIpptScore';
 
 export default HomePage = () => {
 
-    const tailwind = useTailwind();
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [ipptScore, setIpptScore] = useState(0);
+    const [ipptIncentives, setIpptIncentives] = useState(0);
+    const [ipptAward, setIpptAward] = useState("");
+
+    useFocusEffect(
+        useCallback(() => {
+
+            // To be replaced with the HTTP Request to query the database
+            var updatedIpptScore = new QueryIpptDatabase().getUserIpptScoreStub();
+
+            setIpptScore(updatedIpptScore);
+
+            updatedIpptScore <= 50
+                ? (setIpptIncentives(0), setIpptAward("Fail"))
+                : updatedIpptScore <= 60
+                    ? (setIpptIncentives(0), setIpptAward("Pass")) // Passed but without incentives
+                    : updatedIpptScore <= 74
+                        ? (setIpptIncentives(200), setIpptAward("Pass with Incentive"))
+                        : updatedIpptScore <= 84
+                            ? (setIpptIncentives(300), setIpptAward("Sliver"))
+                            : (setIpptIncentives(500), setIpptAward("Gold"))
+
+        }, [])
+    );
 
     return (
         <View style={styles.layoutStyles}>
@@ -17,12 +40,12 @@ export default HomePage = () => {
             </View>
 
             <View style={styles.circle}>
-                <Text style={styles.score}>100</Text>
+                <Text style={styles.score}>{ipptScore}</Text>
                 <Text style={styles.ipptScoreHeader}>IPPT Score</Text>
             </View>
             
             <View>
-                <Text style={styles.awardIncentives}>Award: Gold{'\n'}Expected Incentives: $500</Text>
+                <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
             </View>
 
             <View>
