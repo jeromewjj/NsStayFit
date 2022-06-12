@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+
 import {useTailwind} from 'tailwind-rn';
-import { Button, List, ListItem, Layout, Input, Text, Popover } from '@ui-kitten/components';
+import { Button, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
 import { useFormik } from "formik";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Alert, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-// import {pickImage} from './imagePicker';
 import { Dimensions } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
+
 const windowHeight = Dimensions.get('window').height;
+
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
     const title = ["2.4 km run", "Sit-up", "Push-up"];    
-    const [visible, setVisible] = React.useState(false);
+    const [pushupVideo, setPushupVideo] = useState("");
+    const [situpVideo, setSitupVideo] = useState("");
+    const [runVideo, setRunVideo] = useState("");
+    const navigation = useNavigation();
 
     const { values, handleChange, errors, touched, handleSubmit } = useFormik({
         initialValues: {
@@ -19,37 +26,43 @@ export default SubmitIpptPage = () => {
             runningSec: "",
             situp: "",
             pushup: "",
-            situpVideo: "",
-            pushUpVideo: "",
-            runVideo: "",
         },
 
         onSubmit: () => {
             //TODO: upload data to database
             formSubmissionVerification()
-            
         },
     });
 
+    const handleNavigation = () => {
+        navigation.navigate("View Ippt Score");
+    }
+
     const formSubmissionVerification = () => {
+        if (values.runningMin != "" && values.runningSec != "" && values.situp != "" & values.pushup != "" && pushupVideo && situpVideo && runVideo) {
+            Alert.alert(
+                "Confirm Submission?",
+                "Are you sure you want to submit?",
+                [
+                    {
+                        text: "Confirm",
+                        onPress: () => {console.log("Submitting to database!!"), handleNavigation()},
+                    },
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancelled!!"),
+                        style:"cancel"
+                    },
+                ],
+                { cancelable: true }
+            );
+        } else {
+            Alert.alert(
+                "Warning!",
+                "Please fill in all details before submitting!"
+            )
+        }
 
-        const renderToggleButton = () => (
-            <Button onPress={() => setVisible(true)}>
-              TOGGLE POPOVER
-            </Button>
-        );
-
-        <Popover
-            backdropStyle={styles.backdrop}
-            visible={visible}
-            anchor={renderToggleButton}
-            onBackdropPress={() => setVisible(false)}>
-            <Layout style={styles.content}>
-                <Text>
-                    Welcome to UI Kitten 😻
-                </Text>
-            </Layout>
-        </Popover>
     }
 
     const pickImage = async (item) => {
@@ -63,11 +76,11 @@ export default SubmitIpptPage = () => {
     
         if (!result.cancelled) {
             if (item == 'Push-up') {
-                values.pushUpVideo = result.uri
+                setPushupVideo(result.uri)
             } else if (item == 'Sit-up') {
-                values.situpVideo = result.uri
+                setSitupVideo(result.uri)
             } else {
-                values.runVideo = result.uri
+                setRunVideo(result.uri)
             }
         }
     };
@@ -89,7 +102,7 @@ export default SubmitIpptPage = () => {
                             value={values.runningMin}
                             placeholder= {"0"}
                             onChangeText={handleChange("runningMin")}
-                            maxLength={5}
+                            maxLength={2}
                         />
                     </Layout>
 
@@ -105,7 +118,7 @@ export default SubmitIpptPage = () => {
                             placeholder= {"0"}
                             value={values.runningSec}
                             onChangeText={handleChange("runningSec")}
-                            maxLength={5}
+                            maxLength={2}
                         />
                     </Layout>
 
@@ -131,7 +144,7 @@ export default SubmitIpptPage = () => {
                         placeholder= {"0"}
                         value={props == 'Sit-up' ? values.situp : values.pushup}
                         onChangeText={handleChange(props == 'Sit-up' ? "situp" : "pushup")}
-                        maxLength={5}
+                        maxLength={2}
                     />
                 </Layout>
 
@@ -140,10 +153,13 @@ export default SubmitIpptPage = () => {
     }
 
     const tileView = (item) => {
+        let videoStatus = "";
+        item == '2.4 km run' ? videoStatus = runVideo : item == 'Sit-up' ? videoStatus = situpVideo : videoStatus = pushupVideo
+        console.log(videoStatus)
         return (
             <TouchableWithoutFeedback onPress = { () => {Keyboard.dismiss();}}>
                 <Layout style={tailwind('flex-grow border-2 border-black ')}>
-                    <Layout style={tailwind('flex-col items-center top-1  h-10')}>
+                    <Layout style={tailwind('flex-col items-center top-1 h-10')}>
                         <Layout style={tailwind('bg-[#d9d9d9] border border-black w-40 rounded')}>
                             <Text style={tailwind('text-lg font-bold text-center text-xl')}>{item}</Text>  
                         </Layout>
@@ -151,8 +167,14 @@ export default SubmitIpptPage = () => {
                     <Layout style={tailwind('flex-col')}>
                         {item == '2.4 km run' ? layoutForRun : layoutForSitupAndPushup(item)}
                         <Layout style={tailwind('flex-col')}>
-                            <Layout style={tailwind('h-10')}>
-                                <Text style={tailwind('text-center text-lg')}>Choose file to upload:</Text>
+                            <Layout style={tailwind('h-10 flex-row items-center left-24 w-20')}>
+                                <Text style={tailwind('text-center text-lg w-44')}>Choose file to upload:</Text>
+                                {videoStatus ? 
+                                    <MaterialCommunityIcons 
+                                        style={tailwind('left-2')} 
+                                        name="check-circle-outline" 
+                                        size={24} 
+                                        color="green" /> : null}
                             </Layout>
                             <Button 
                                 style={tailwind('mx-36')}

@@ -42,6 +42,22 @@
   top: 0.5rem
 }
 
+.right-8 {
+  right: 2rem
+}
+
+.left-20 {
+  left: 5rem
+}
+
+.left-24 {
+  left: 6rem
+}
+
+.left-4 {
+  left: 1rem
+}
+
 .mx-40 {
   margin-left: 10rem;
   margin-right: 10rem
@@ -127,6 +143,30 @@
 
 .w-4\/5 {
   width: 80%
+}
+
+.w-8 {
+  width: 2rem
+}
+
+.w-28 {
+  width: 7rem
+}
+
+.w-24 {
+  width: 6rem
+}
+
+.w-12 {
+  width: 3rem
+}
+
+.w-32 {
+  width: 8rem
+}
+
+.w-44 {
+  width: 11rem
 }
 
 .flex-1 {
