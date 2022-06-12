@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
-import { Text, View, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import RNDateTimePicker from '@react-native-community/datetimepicker';
-
+import { Button, Text, View, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+//import { DateTimePicker  from '@react-native-community/datetimepicker'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default RegistrationPage = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -13,22 +13,30 @@ export default RegistrationPage = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [open, setOpen] = useState(false)
     const navigation = useNavigation();
-
-    state = {
-        date: new Date()
-     }
- 
-     setDate = (event, date) => {
-        date = date || this.state.date;
- 
-        this.setState({
-           date
-        });
-    }
+    const [date, setDate] = useState(new Date());
+    const [dateString, setDateString] = useState('');
     const returnBack = () => {
-        navigation.navigate("Login");
+        navigation.navigate("Register")
     }
 
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        setDate(date);
+        setDateString(
+            date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+        )
+        hideDatePicker();
+    };
+    
     return (
         <KeyboardAvoidingView
             style={styles.container}
@@ -46,7 +54,17 @@ export default RegistrationPage = () => {
                     placeholder="Enter last name" 
                     value={lastName} 
                     onChange={(text) => setLastName(text)}/>
-                
+                <Text style={styles.fieldTitle}>Date Of Birth</Text>
+                <Text style={styles.date}>{dateString}</Text>
+                <View>
+                    <Button title="Select Date of Birth" onPress={showDatePicker} />
+                    <DateTimePickerModal
+                        isVisible={isDatePickerVisible}
+                        mode="date"
+                        onConfirm={handleConfirm}
+                        onCancel={hideDatePicker}
+                    />
+                </View>
                 <Text style={styles.fieldTitle}>Email Address</Text>
                 <TextInput style={styles.input} 
                     placeholder="Enter email address" 
@@ -93,6 +111,7 @@ export default RegistrationPage = () => {
         );
 }
 
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -122,6 +141,10 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       alignItems: 'center',
     },
+    datePickerStyle: {
+        width: 200,
+        marginTop: 20,
+    },
     buttonOutline: {
       backgroundColor: 'white',
       marginTop: 5,
@@ -147,6 +170,11 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: 'bold',
         fontSize: 32,
+        textAlign: 'center',
+    }, 
+    date: {
+        color: 'black',
+        fontSize: 16,
         textAlign: 'center',
     }
 });
