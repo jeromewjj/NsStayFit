@@ -3,15 +3,34 @@ import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import {useTailwind} from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { signup, login } from '../../firebase';
+//import { registerUser } from '../../database'
 
 export default LoginPage = () => {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation()
 
+    
+    useEffect(() => {
+      const auth = getAuth();
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigation.navigate("View Ippt Score")
+        }
+      })
+  
+      return unsubscribe
+    }, [])
+    
+
+    
     const handleLogin = () => {
+        login(email, password)
     }
+    
     
     const handleSignUp = () => {
         navigation.navigate("Register")
@@ -24,9 +43,9 @@ export default LoginPage = () => {
         >
             <View style={styles.inputContainer}>
             <TextInput
-                placeholder="Username"
-                value={username}
-                onChangeText={text => setUsername(text)}
+                placeholder="Email"
+                value={email}
+                onChangeText={text => setEmail(text)}
                 style={styles.input}
             />
             <TextInput
@@ -40,7 +59,7 @@ export default LoginPage = () => {
     
             <View style={styles.buttonContainer}>
             <TouchableOpacity
-                //onPress={handleLogin}
+                onPress={handleLogin}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
