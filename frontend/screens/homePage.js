@@ -1,20 +1,22 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from "@react-navigation/native";
-import {useTailwind} from 'tailwind-rn';
-import { Text, Card, TopNavigationAction } from '@ui-kitten/components';
+import { Text, Card } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native'
 import QueryIpptDatabase from '../../backend/homepage/GetIpptScore';
+import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
 
 export default HomePage = () => {
 
     const [ipptScore, setIpptScore] = useState(0);
     const [ipptIncentives, setIpptIncentives] = useState(0);
     const [ipptAward, setIpptAward] = useState("");
+    const [fitnessQuote, setFitnessQuote] = useState("");
+    const [authorQuote, setAuthorQuote] = useState("");
 
     useFocusEffect(
-        useCallback(() => {
 
+        useCallback(() => {
             // To be replaced with the HTTP Request to query the database
             var updatedIpptScore = new QueryIpptDatabase().getUserIpptScoreStub();
 
@@ -30,6 +32,10 @@ export default HomePage = () => {
                             ? (setIpptIncentives(300), setIpptAward("Sliver"))
                             : (setIpptIncentives(500), setIpptAward("Gold"))
 
+            // get random quotes
+            var updatedQuote = new FitnessQuote().getRandomFitnessQuoteAuthor();
+            setFitnessQuote(updatedQuote[0]);
+            setAuthorQuote(updatedQuote[1]);
         }, [])
     );
 
@@ -50,7 +56,7 @@ export default HomePage = () => {
 
             <View>
                 <Card style={styles.tab}>
-                    <Text category='h5'>“All progress takes place outside the comfort zone.”- Michal Joan Bobak</Text>
+                    <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
                 </Card>
             </View>
         </View>
