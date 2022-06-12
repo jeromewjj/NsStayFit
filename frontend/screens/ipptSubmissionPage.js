@@ -227,7 +227,6 @@ export default SubmitIpptPage = () => {
                     onPress={handleSubmit}>
                         Submit 
                 </Button>
-                    
             </Layout>
         </Layout>
     );
@@ -235,21 +234,6 @@ export default SubmitIpptPage = () => {
 
 const styles = StyleSheet.create({
     container: {
-        maxHeight: windowHeight-190,
+        maxHeight: windowHeight-110,
     },
-    backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    content: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 4,
-        paddingVertical: 8,
-      },
-      avatar: {
-        marginHorizontal: 4,
-      },
-      backdrop: {
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      },
 });

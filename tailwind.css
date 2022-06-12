@@ -46,16 +46,8 @@
   top: 0.5rem
 }
 
-.left-4 {
-  left: 1rem
-}
-
-.left-12 {
-  left: 3rem
-}
-
-.left-20 {
-  left: 5rem
+.top-8 {
+  top: 2rem
 }
 
 .mx-40 {
@@ -105,12 +97,12 @@
   height: 5rem
 }
 
-.h-10 {
-  height: 2.5rem
-}
-
 .h-16 {
   height: 4rem
+}
+
+.h-10 {
+  height: 2.5rem
 }
 
 .h-40 {
@@ -119,18 +111,6 @@
 
 .h-4\/5 {
   height: 80%
-}
-
-.h-4 {
-  height: 1rem
-}
-
-.h-2 {
-  height: 0.5rem
-}
-
-.h-14 {
-  height: 3.5rem
 }
 
 .w-0 {

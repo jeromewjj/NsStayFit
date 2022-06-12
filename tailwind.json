@@ -59,19 +59,9 @@
 			"top": 8
 		}
 	},
-	"left-4": {
+	"top-8": {
 		"style": {
-			"left": 16
-		}
-	},
-	"left-12": {
-		"style": {
-			"left": 48
-		}
-	},
-	"left-20": {
-		"style": {
-			"left": 80
+			"top": 32
 		}
 	},
 	"mx-40": {
@@ -132,14 +122,14 @@
 			"height": 80
 		}
 	},
-	"h-10": {
-		"style": {
-			"height": 40
-		}
-	},
 	"h-16": {
 		"style": {
 			"height": 64
+		}
+	},
+	"h-10": {
+		"style": {
+			"height": 40
 		}
 	},
 	"h-40": {
@@ -150,21 +140,6 @@
 	"h-4/5": {
 		"style": {
 			"height": "80%"
-		}
-	},
-	"h-4": {
-		"style": {
-			"height": 16
-		}
-	},
-	"h-2": {
-		"style": {
-			"height": 8
-		}
-	},
-	"h-14": {
-		"style": {
-			"height": 56
 		}
 	},
 	"w-0": {
