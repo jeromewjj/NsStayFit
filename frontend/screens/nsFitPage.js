@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTailwind} from 'tailwind-rn';
 import { Layout, Text, Button, ViewPager, Modal, Card, Input} from '@ui-kitten/components';
-import { Animated, View, ScrollView } from 'react-native';
+import { Alert, Animated, View, ScrollView } from 'react-native';
 import { Video } from 'expo-av';
 
 export default NsFitPage = () => {
@@ -13,7 +13,7 @@ export default NsFitPage = () => {
     const [visible, setVisible] = React.useState(false);
     
     const [burpeesValue, setburpeesValue] = React.useState('');  // value of input from popup
-    const [weightLiftingvalue, setweightLiftingValue] = React.useState('');  // value of input from popup
+    const [weightLiftingValue, setweightLiftingValue] = React.useState('');  // value of input from popup
     const [pushupsValue, setpushupsValue] = React.useState('');  // value of input from popup
     const [squatsValue, setsquatsValue] = React.useState('');  // value of input from popup
 
@@ -38,6 +38,106 @@ export default NsFitPage = () => {
       setendExcerciseValue('');
     };
 
+    const valEndExercise = () => {
+      if (startExcerciseValue === '') {
+        return 
+      }
+      setendExcerciseValue(getDate());
+
+    };
+
+    // submission validation
+    const formSubmissionVerification = () => {
+      if ( startExcerciseValue != "" && endExcerciseValue != "") {
+          Alert.alert(
+              "Confirm Submission?",
+              "Are you sure you want to submit?",
+              [
+                  {
+                      text: "Confirm",
+                      onPress: () => {sendData()},
+                  },
+                  {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancelled!!"),
+                      style:"cancel"
+                  },
+              ],
+              { cancelable: true }
+          );
+      } else {
+          Alert.alert(
+              "Warning invalid form entered!",
+              "Form contains invalid or missing values. Please fill in details correctly before submitting!"
+          )
+      }
+    }
+
+    // begin workout form validation
+    const formBeginWorkoutVerification = () => {
+      if  (parseInt(burpeesValue) === 0 ) {
+        console.log(parseInt(burpeesValue))
+        setburpeesValue('')
+      }
+      if  (  parseInt(weightLiftingValue) === 0 ) {
+        setweightLiftingValue('')
+      }
+      if  (  parseInt(pushupsValue) === 0  ) {
+        setpushupsValue('')
+      }
+      if  ( parseInt(squatsValue) === 0 ) {
+        setsquatsValue('')
+      }
+
+      if ( (burpeesValue == '' &&  weightLiftingValue == '' && pushupsValue == '' && squatsValue == '')  || ( parseInt(burpeesValue) === 0 || parseInt(weightLiftingValue) === 0) ||  parseInt(pushupsValue) === 0 ||parseInt(squatsValue) === 0 ) {
+          Alert.alert(
+            "Warning invalid form entered!",
+            "Form contains invalid or missing values. Please fill in details correctly before submitting!"
+        )
+      } else {
+        Alert.alert(
+          "Confirm start of workout?",
+          "Ready to start?",
+          [
+              {
+                  text: "Yes",
+                  onPress: () => {setVisible(false); setstartExcerciseValue(getDate())},
+              },
+              {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancelled!!"),
+                  style:"cancel"
+              },
+          ],
+          { cancelable: true }
+      );
+      }
+    }
+ 
+    // reset button validation
+    const resetVerification = () => {
+
+      if ( true ) {
+        Alert.alert(
+          "Confirm reset?",
+          "Are you sure you want to reset? Resetting would clear all exercise details for this session without submission",
+          [
+              {
+                  text: "Yes",
+                  onPress: () => {resetExcercisePlan()},
+              },
+              {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancelled!!"),
+                  style:"cancel"
+              },
+          ],
+          { cancelable: true }
+      );
+
+      }
+    }
+
     // get data to backend
     const sendData = () => {
       const burpeesValue = burpeesValue;
@@ -47,15 +147,8 @@ export default NsFitPage = () => {
       const startExcerciseValue = startExcerciseValue;
       const endExcerciseValue =  endExcerciseValue;
 
+      console.log("Sending data over!!");
       // pass in as props? and send to database whatever is releavant
-    };
-
-    const valEndExercise = () => {
-      if (startExcerciseValue === '') {
-        return 
-      }
-      setendExcerciseValue(getDate());
-
     };
 
     return (
@@ -72,14 +165,14 @@ export default NsFitPage = () => {
 
       <View style= {tailwind('flex-col flex-1 mt-8')}> 
         <ViewPager selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex:1,flexGrow:1}}>
-          <Layout style={tailwind('items-center justify-center mb-3')}>
+          <Layout style={tailwind('flex items-center justify-center mb-3')}>
               <Text style={tailwind('font-bold text-3xl')}> Workout Session Plan </Text>
 
               <Text style={{ lineHeight: 30 }}>{ }</Text>
-
+    
               <Card>
                 <Text> Burpees Reps  :  {burpeesValue} </Text>
-                <Text> Weights Reps  :  {burpeesValue} </Text>
+                <Text> Weights Reps  :  {weightLiftingValue} </Text>
                 <Text> Pushups Reps :  {pushupsValue} </Text>
                 <Text> Squats Reps    :  {squatsValue} </Text>
                 <Text> Start Time        :  {startExcerciseValue} </Text>
@@ -88,10 +181,16 @@ export default NsFitPage = () => {
 
               <Text style={{ lineHeight: 30 }}>{ }</Text>
 
-              <Button 
-                onPress={() => {setVisible(false); resetExcercisePlan()}} style={tailwind('mt-4 mx-4 rounded-lg p-2')}>
-                Reset Plan
-              </Button>
+              <Layout style={tailwind('flex-row flex-1')}> 
+                <Button 
+                  onPress={() => {resetVerification()}} style={tailwind('flex-1 mt-4 mx-8 rounded-lg p-2')}>
+                  Reset Plan
+                </Button>
+
+                <Button onPress={() => {formSubmissionVerification()}} style={tailwind('flex-1 mt-4 mx-8 rounded-lg p-2')}>
+                  Submit Workout
+                </Button>
+              </Layout>
 
           </Layout>
         
@@ -185,19 +284,19 @@ export default NsFitPage = () => {
             value={burpeesValue}
             keyboardType = 'numeric'
             label='Burpees'
-            placeholder='Enter desired number of reps'
-            onChangeText={nextValue =>setburpeesValue(nextValue)}
+            placeholder='Leave blank if not required'
+            onChangeText={nextValue =>setburpeesValue(nextValue.replace(/[^0-9]/g, ''))}
             maxLength={2}
             />
             
             <Text style={{ lineHeight: 30 }}>{ }</Text>
 
             <Input
-            value={weightLiftingvalue}
+            value={weightLiftingValue}
             keyboardType = 'numeric'
             label='Weight Lifting'
-            placeholder='Enter desired number of reps'
-            onChangeText={nextValue =>setweightLiftingValue(nextValue)}
+            placeholder='Leave blank if not required'
+            onChangeText={nextValue =>setweightLiftingValue(nextValue.replace(/[^0-9]/g, ''))}
             maxLength={2}
             />
 
@@ -207,8 +306,8 @@ export default NsFitPage = () => {
             value={pushupsValue}
             keyboardType = 'numeric'
             label='Pushups'
-            placeholder='Enter desired number of reps'
-            onChangeText={nextValue =>setpushupsValue(nextValue)}
+            placeholder='Leave blank if not required'
+            onChangeText={nextValue =>setpushupsValue(nextValue.replace(/[^0-9]/g, ''))}
             maxLength={2}
             />
 
@@ -218,8 +317,8 @@ export default NsFitPage = () => {
             value={squatsValue}
             keyboardType = 'numeric'
             label='Squats'
-            placeholder='Enter desired number of reps'
-            onChangeText={nextValue =>setsquatsValue(nextValue)}
+            placeholder='Leave blank if not required'
+            onChangeText={nextValue =>setsquatsValue(nextValue.replace(/[^0-9]/g, ''))}
             maxLength={2}
             />
 
@@ -228,10 +327,14 @@ export default NsFitPage = () => {
             <Text style={tailwind('font-semibold text-red-600 text-center text-xs')}> Warning: Time starts 30s after pressing Begin </Text>
             <Text style={tailwind('text-center text-sm')}> Please get into positon </Text>
             
-            <Button 
-              onPress={() => {setVisible(false); setstartExcerciseValue(getDate())}} style={tailwind('mt-4 mx-4 rounded-lg p-4')}>
-              Begin Workout
-            </Button>
+            <Layout style={tailwind('flex-1 flex-row')}>
+              <Button onPress={() => {formBeginWorkoutVerification()}} style={tailwind('items-center justify-center flex-1 mt-4 mx-4 rounded-lg p-2')}>
+                <Text style={tailwind('items-center justify-center')}>   Begin Workout </Text>
+              </Button>
+              <Button onPress={() => {setVisible(false); resetExcercisePlan()}} style={tailwind('flex-1 mt-4 mx-4 rounded-lg p-2')}>
+                Dismiss
+              </Button>
+            </Layout>
 
         </Card>
         </ScrollView>
