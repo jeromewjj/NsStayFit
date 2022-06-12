@@ -1,14 +1,43 @@
-import React from 'react';
-import {useTailwind} from 'tailwind-rn';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from "@react-navigation/native";
 import { Text, Card } from '@ui-kitten/components';
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native'
-
+import QueryIpptDatabase from '../../backend/homepage/GetIpptScore';
+import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
 
 export default HomePage = () => {
 
-    const tailwind = useTailwind();
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [ipptScore, setIpptScore] = useState(0);
+    const [ipptIncentives, setIpptIncentives] = useState(0);
+    const [ipptAward, setIpptAward] = useState("");
+    const [fitnessQuote, setFitnessQuote] = useState("");
+    const [authorQuote, setAuthorQuote] = useState("");
+
+    useFocusEffect(
+
+        useCallback(() => {
+            // To be replaced with the HTTP Request to query the database
+            var updatedIpptScore = new QueryIpptDatabase().getUserIpptScoreStub();
+
+            setIpptScore(updatedIpptScore);
+
+            updatedIpptScore <= 50
+                ? (setIpptIncentives(0), setIpptAward("Fail"))
+                : updatedIpptScore <= 60
+                    ? (setIpptIncentives(0), setIpptAward("Pass")) // Passed but without incentives
+                    : updatedIpptScore <= 74
+                        ? (setIpptIncentives(200), setIpptAward("Pass with Incentive"))
+                        : updatedIpptScore <= 84
+                            ? (setIpptIncentives(300), setIpptAward("Sliver"))
+                            : (setIpptIncentives(500), setIpptAward("Gold"))
+
+            // get random quotes
+            var updatedQuote = new FitnessQuote().getRandomFitnessQuoteAuthor();
+            setFitnessQuote(updatedQuote[0]);
+            setAuthorQuote(updatedQuote[1]);
+        }, [])
+    );
 
     return (
         <View style={styles.layoutStyles}>
@@ -16,18 +45,25 @@ export default HomePage = () => {
                 <Text style={styles.title}>Welcome Back!</Text>
             </View>
 
-            <View style={styles.circle}>
-                <Text style={styles.score}>100</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text>
-            </View>
+
+            { ipptScore <= 50
+            
+                ? <View style={styles.failCircle}>
+                <Text style={styles.score}>{ipptScore}</Text>
+                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+
+                : <View style={styles.passCircle}>
+                <Text style={styles.score}>{ipptScore}</Text>
+                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+            }
             
             <View>
-                <Text style={styles.awardIncentives}>Award: Gold{'\n'}Expected Incentives: $500</Text>
+                <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
             </View>
 
             <View>
                 <Card style={styles.tab}>
-                    <Text category='h5'>“All progress takes place outside the comfort zone.”- Michal Joan Bobak</Text>
+                    <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
                 </Card>
             </View>
         </View>
@@ -48,7 +84,8 @@ const styles = StyleSheet.create({
       textAlign: 'center',
     },
 
-    circle: {
+
+    failCircle: {
         width: 250,
         height: 250,
         borderRadius: 125,
@@ -56,7 +93,19 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderStyle: 'solid',
         justifyContent: 'center',
-        backgroundColor: "#add8e6",
+        backgroundColor: "#FAA0A0",
+        marginTop: 30,
+    },
+
+    passCircle: {
+        width: 250,
+        height: 250,
+        borderRadius: 125,
+        borderWidth: 2,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        justifyContent: 'center',
+        backgroundColor: "#83F52C",
         marginTop: 30,
     },
 
