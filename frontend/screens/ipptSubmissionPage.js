@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
 import {useTailwind} from 'tailwind-rn';
 import { Button, List, ListItem, Layout, Input, Text } from '@ui-kitten/components';
 import { useFormik } from "formik";
@@ -9,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+import { ipptSchema } from "./validationSchema.js"
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -32,6 +32,8 @@ export default SubmitIpptPage = () => {
             //TODO: upload data to database
             formSubmissionVerification()
         },
+
+        validationSchema: ipptSchema,
     });
 
     const handleNavigation = () => {
@@ -88,7 +90,7 @@ export default SubmitIpptPage = () => {
     const layoutForRun = (
         <Layout style={tailwind('')}>
             
-            <Layout style={tailwind('flex-row h-20 items-center left-8 w-0')}>
+            <Layout style={tailwind('flex-row h-20 items-center left-8 w-0 h-16')}>
 
                 <Layout style={tailwind('flex-row left-2 w-20')}>
                     <Text style={tailwind('text-lg')}>Timing:</Text>
@@ -125,15 +127,18 @@ export default SubmitIpptPage = () => {
                     <Layout style={tailwind('w-10 left-36')}>
                         <Text style={tailwind('text-center text-lg')}>sec</Text>
                     </Layout>
-                </Layout>
 
+                    
+
+                </Layout>
+            
             </Layout>
         </Layout>
     )
 
     const layoutForSitupAndPushup = (props) => {
         return (
-            <Layout style={tailwind("flex-row h-20 items-center left-28 w-0")}>
+            <Layout style={tailwind("flex-row h-20 items-center left-28 w-0 h-16")}>
                 <Layout style={tailwind('flex-row left-2 w-20')}>
                     <Text style={tailwind('text-center text-lg')}>Reps:</Text>
                 </Layout>
@@ -166,6 +171,16 @@ export default SubmitIpptPage = () => {
                     </Layout>
                     <Layout style={tailwind('flex-col')}>
                         {item == '2.4 km run' ? layoutForRun : layoutForSitupAndPushup(item)}
+                        {item == '2.4 km run' && ((errors.runningMin && touched.runningMin) ||
+                        (errors.runningSec && touched.runningSec)) ? (
+                        <Text style={tailwind("text-red-600 left-28")}>Must be a valid duration</Text>
+                        ) : null}
+                        {item == 'Sit-up' && (errors.situp && touched.situp) ? (
+                        <Text style={tailwind("text-red-600 left-28")}>{errors.situp}</Text>
+                        ) : null}
+                        {item == 'Push-up' && (errors.pushup && touched.pushup) ? (
+                        <Text style={tailwind("text-red-600 left-28")}>{errors.pushup}</Text>
+                        ) : null}
                         <Layout style={tailwind('flex-col')}>
                             <Layout style={tailwind('h-10 flex-row items-center left-24 w-20')}>
                                 <Text style={tailwind('text-center text-lg w-44')}>Choose file to upload:</Text>

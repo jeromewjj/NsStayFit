@@ -34,6 +34,10 @@
   top: 0.25rem
 }
 
+.left-24 {
+  left: 6rem
+}
+
 .top-4 {
   top: 1rem
 }
@@ -42,20 +46,16 @@
   top: 0.5rem
 }
 
-.right-8 {
-  right: 2rem
+.left-4 {
+  left: 1rem
+}
+
+.left-12 {
+  left: 3rem
 }
 
 .left-20 {
   left: 5rem
-}
-
-.left-24 {
-  left: 6rem
-}
-
-.left-4 {
-  left: 1rem
 }
 
 .mx-40 {
@@ -121,6 +121,18 @@
   height: 80%
 }
 
+.h-4 {
+  height: 1rem
+}
+
+.h-2 {
+  height: 0.5rem
+}
+
+.h-14 {
+  height: 3.5rem
+}
+
 .w-0 {
   width: 0px
 }
@@ -141,32 +153,12 @@
   width: 10rem
 }
 
-.w-4\/5 {
-  width: 80%
-}
-
-.w-8 {
-  width: 2rem
-}
-
-.w-28 {
-  width: 7rem
-}
-
-.w-24 {
-  width: 6rem
-}
-
-.w-12 {
-  width: 3rem
-}
-
-.w-32 {
-  width: 8rem
-}
-
 .w-44 {
   width: 11rem
+}
+
+.w-4\/5 {
+  width: 80%
 }
 
 .flex-1 {
@@ -246,4 +238,9 @@
 
 .font-bold {
   font-weight: 700
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity))
 }
