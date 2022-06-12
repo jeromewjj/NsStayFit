@@ -8529,6 +8529,7 @@
 
 "utile@0.2.x":
   "integrity" "sha512-ltfvuCJNa/JFOhKBBiQ9qDyyFwLstoMMO1ru0Yg/Mcl8dp1Z3IBaL7n+5dHpyma+d3lCogkgBQnWKtGxzNyqhg=="
+  "integrity" "sha1-kwyI6ZCY1iIINMNWy9mncFItkNc="
   "resolved" "https://registry.npmjs.org/utile/-/utile-0.2.1.tgz"
   "version" "0.2.1"
   dependencies:
