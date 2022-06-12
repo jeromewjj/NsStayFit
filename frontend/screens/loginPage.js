@@ -3,6 +3,9 @@ import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import {useTailwind} from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { signup, login } from '../../firebase';
+//import { registerUser } from '../../database'
 
 export default LoginPage = () => {
     const [email, setEmail] = useState('')
@@ -10,8 +13,24 @@ export default LoginPage = () => {
 
     const navigation = useNavigation()
 
+    
+    useEffect(() => {
+      const auth = getAuth();
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigation.navigate("View Ippt Score")
+        }
+      })
+  
+      return unsubscribe
+    }, [])
+    
+
+    
     const handleLogin = () => {
+        login(email, password)
     }
+    
     
     const handleSignUp = () => {
         navigation.navigate("Register")
@@ -40,7 +59,7 @@ export default LoginPage = () => {
     
             <View style={styles.buttonContainer}>
             <TouchableOpacity
-                //onPress={handleLogin}
+                onPress={handleLogin}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
