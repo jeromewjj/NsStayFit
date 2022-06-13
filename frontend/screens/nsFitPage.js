@@ -159,14 +159,14 @@ export default NsFitPage = () => {
       </Layout>
       
       <Layout style={tailwind('items-center justify-center mt-5')}> 
-        <Text style={tailwind('text-xl')}> Swipe for exercise videos and follow along</Text>  
-        <Text style={tailwind('text-2xl mt-2')}> Tap video to play </Text>  
+        <Text style={tailwind('font-semibold text-red-800 text-xl')}> Swipe for exercise videos and follow along</Text>  
+        <Text style={tailwind('font-semibold text-red-800 text-2xl mt-2')}> Tap video to play </Text>  
       </Layout>
 
       <View style= {tailwind('flex-col flex-1 mt-8')}> 
         <ViewPager selectedIndex={selectedIndex} onSelect={index => setSelectedIndex(index)} style={{ flex:1,flexGrow:1}}>
           <Layout style={tailwind('flex items-center justify-center mb-3')}>
-              <Text style={tailwind('font-bold text-3xl')}> Workout Session Plan </Text>
+              <Text style={tailwind('text-red-800 font-bold text-3xl')}> Workout Session Plan </Text>
 
               <Text style={{ lineHeight: 30 }}>{ }</Text>
     
@@ -183,11 +183,11 @@ export default NsFitPage = () => {
 
               <Layout style={tailwind('flex-row flex-1')}> 
                 <Button 
-                  onPress={() => {resetVerification()}} style={tailwind('flex-1 mt-4 mx-8 rounded-lg p-2')}>
+                  onPress={() => {resetVerification()}} style={tailwind('border-red-800 bg-red-800 border-0 flex-1 mt-4 mx-8 rounded-lg p-2')}>
                   Reset Plan
                 </Button>
 
-                <Button onPress={() => {formSubmissionVerification()}} style={tailwind('flex-1 mt-4 mx-8 rounded-lg p-2')}>
+                <Button onPress={() => {formSubmissionVerification()}} style={tailwind('border-red-800 bg-red-800 border-0 flex-1 mt-4 mx-8 rounded-lg p-2')}>
                   Submit Workout
                 </Button>
               </Layout>
@@ -262,8 +262,8 @@ export default NsFitPage = () => {
       </View>          
       
       <View style={tailwind(' flex-grow items-center justify-center flex-row mt-8 ')}>
-        <Button style={tailwind('text-3xl mx-4 rounded-lg p-4 ')} onPress={() => setVisible(true)} > Plan Workout </Button>  
-        <Button style={tailwind('text-3xl mx-4 rounded-lg p-4')} onPress={() => valEndExercise()} > End Workout </Button>    
+        <Button style={tailwind('border-red-800 bg-red-800 border-0 text-3xl mx-4 rounded-lg p-4 ')} onPress={() => setVisible(true)} > Plan Workout </Button>  
+        <Button style={tailwind('border-red-800 bg-red-800 border-0 text-3xl mx-4 rounded-lg p-4')} onPress={() => valEndExercise()} > End Workout </Button>    
       </View>
 
 
@@ -328,10 +328,10 @@ export default NsFitPage = () => {
             <Text style={tailwind('text-center text-sm')}> Please get into positon </Text>
             
             <Layout style={tailwind('flex-1 flex-row')}>
-              <Button onPress={() => {formBeginWorkoutVerification()}} style={tailwind('items-center justify-center flex-1 mt-4 mx-4 rounded-lg p-2')}>
+              <Button onPress={() => {formBeginWorkoutVerification()}} style={tailwind('border-red-800 bg-red-800 items-center justify-center flex-1 mt-4 mx-4 rounded-lg p-2 border-0')}>
                 <Text style={tailwind('items-center justify-center')}>   Begin Workout </Text>
               </Button>
-              <Button onPress={() => {setVisible(false); resetExcercisePlan()}} style={tailwind('flex-1 mt-4 mx-4 rounded-lg p-2')}>
+              <Button onPress={() => {setVisible(false); resetExcercisePlan()}} style={tailwind('border-red-800 bg-red-800 flex-1 mt-4 mx-4 rounded-lg p-2 border-0')}>
                 Dismiss
               </Button>
             </Layout>

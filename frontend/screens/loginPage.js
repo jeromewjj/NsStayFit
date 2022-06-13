@@ -18,7 +18,7 @@ export default LoginPage = () => {
       const auth = getAuth();
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          navigation.navigate("View Ippt Score")
+          navigation.navigate("HomeNavigator")
         }
       })
   
@@ -28,7 +28,7 @@ export default LoginPage = () => {
 
     
     const handleLogin = () => {
-        login(email, password)
+      navigation.navigate("HomeNavigator")
     }
     
     
