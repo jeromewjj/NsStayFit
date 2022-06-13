@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from "@react-navigation/native";
-import { Text, Card, Button } from '@ui-kitten/components';
-import { Alert, View } from 'react-native';
-import { StyleSheet } from 'react-native'
+import { Text, Card, Button, Layout } from '@ui-kitten/components';
+import { Alert, View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FireBaseStub from '../../backend/homepage/fireBaseStub';
+import {useTailwind} from 'tailwind-rn';
 import { useNavigation } from "@react-navigation/native";
 import { getIpptScore, logout } from '../../firebase.js';
 import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
@@ -16,7 +16,7 @@ export default HomePage = () => {
     const [ipptAward, setIpptAward] = useState("");
     const [fitnessQuote, setFitnessQuote] = useState("");
     const [authorQuote, setAuthorQuote] = useState("");
-
+    const tailwind = useTailwind();
 
     const navigation = useNavigation();
 
@@ -54,18 +54,20 @@ export default HomePage = () => {
     );
     
     return (
-        <View style={styles.layoutStyles}>
+        <View style={tailwind('flex-grow')}>
 
-            <View style={styles.topContainer}>
-                <Text style={styles.title}>Welcome Back!</Text>
+            {/* <View style={styles.topContainer}> */}
+            <Layout style={tailwind('bg-red-800 h-20 flex-row justify-center')}>
+
+                <Text style={tailwind('font-bold text-white text-2xl text-center top-8 left-20')}>Welcome Back!</Text>
                 <Button style={styles.logoutButton} appearance='ghost' accessoryRight={
                     <MaterialCommunityIcons
                     style={{alignItems: 'center', justifyContent: 'center', color: "#a12427"}}
                     name="exit-to-app"
                     size={22} 
-                    color="red" />
+                    color="white" />
                 }
-                onPress={ () =>
+                onPress={() =>
                     Alert.alert("Logout?",
                         "Are you sure that you want to logout?",
                         [
@@ -82,29 +84,31 @@ export default HomePage = () => {
                         ])
                 }
                 ></Button>
-            </View>
+            </Layout>
 
+            <Layout style={tailwind('flex-1 justify-center items-center')}>
 
-            { ipptScore <= 50
-            
-                ? <View style={styles.failCircle}>
-                <Text style={styles.score}>{ipptScore}</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+                { ipptScore <= 50
+                
+                    ? <View style={styles.failCircle}>
+                    <Text style={styles.score}>{ipptScore}</Text>
+                    <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
 
-                : <View style={styles.passCircle}>
-                <Text style={styles.score}>{ipptScore}</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
-            }
-            
-            <View>
-                <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
-            </View>
+                    : <View style={styles.passCircle}>
+                    <Text style={styles.score}>{ipptScore}</Text>
+                    <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+                }
+                
+                <View>
+                    <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
+                </View>
 
-            <View>
-                <Card style={styles.tab}>
-                    <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
-                </Card>
-            </View>
+                <View>
+                    <Card style={styles.tab}>
+                        <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
+                    </Card>
+                </View>
+            </Layout>
         </View>
     );
 };
@@ -123,10 +127,9 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 150,
-        marginRight: 10,
+        marginLeft:110,
         marginTop: 15
     },
-
 
     title: {
       fontSize: 45,
@@ -137,17 +140,16 @@ const styles = StyleSheet.create({
       color: "#a12427"
     },
 
-
     failCircle: {
         width: 250,
         height: 250,
         borderRadius: 125,
         borderWidth: 2,
-        borderColor: 'black',
+        borderColor: 'transparent',
         borderStyle: 'solid',
         justifyContent: 'center',
         backgroundColor: "#FAA0A0",
-        marginTop: 30,
+        marginTop: 5,
     },
 
     passCircle: {
@@ -155,11 +157,11 @@ const styles = StyleSheet.create({
         height: 250,
         borderRadius: 125,
         borderWidth: 2,
-        borderColor: 'black',
+        borderColor: 'transparent',
         borderStyle: 'solid',
         justifyContent: 'center',
         backgroundColor: "#83F52C",
-        marginTop: 30,
+        marginTop: 5,
     },
 
     score: {
