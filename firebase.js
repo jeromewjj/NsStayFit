@@ -7,12 +7,6 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
@@ -99,11 +93,28 @@ export function updateNsFit() {
   )
 }
 
-export function getPushUp(pushUp) {
-  return getDoc(doc(db, "users", auth.currentUser.uid))
+export function getPushUp() {
+  return getDoc(doc(db, "users", auth.currentUser.uid)).data().Push_Up
 }
 
+export function getSitUp() {
+  return getDoc(doc(db, "users", auth.currentUser.uid)).data().Sit_Up
+}
 
+export function getRunning() {
+  return getDoc(doc(db, "users", auth.currentUser.uid)).data().Running
+}
+
+export async function getIpptScore() {
+  const docRef = doc(db, "users", auth.currentUser.uid);
+  const docSnap = await getDoc(docRef);
+  return docSnap.data().Ippt_Score;
+}
+
+//get number of time user complete NS fit
+export function getNsFit() {
+  return getDoc(doc(db, "users", auth.currentUser.uid)).data().NS_Fit
+}
 
 /*
 // Custom Hook

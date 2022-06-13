@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import FireBaseStub from '../../backend/homepage/fireBaseStub';
 import { useNavigation } from "@react-navigation/native";
-import { getIpptScore } from '../../firebase.js';
+import { getIpptScore, logout } from '../../firebase.js';
 import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
 
 export default HomePage = () => {
@@ -28,19 +28,21 @@ export default HomePage = () => {
 
         useCallback(() => {
             
-            // To be replaced with the HTTP Request to query the database
-            var updatedIpptScore = new FireBaseStub().getUserIpptScoreStub();
+            // Firebase database query to get ippt score of logged in user
+            async function checkIpptScore() {
+                var updatedIpptScore = await getIpptScore();
+                setIpptScore(updatedIpptScore);
+            }
 
-            // var updatedIpptScore = getIpptScore();
-            setIpptScore(updatedIpptScore);
+            checkIpptScore();
 
-            updatedIpptScore <= 50
+            ipptScore <= 50
                 ? (setIpptIncentives(0), setIpptAward("Fail"))
-                : updatedIpptScore <= 60
+                : ipptScore <= 60
                     ? (setIpptIncentives(0), setIpptAward("Pass")) // Passed but without incentives
-                    : updatedIpptScore <= 74
+                    : ipptScore <= 74
                         ? (setIpptIncentives(200), setIpptAward("Pass with Incentive"))
-                        : updatedIpptScore <= 84
+                        : ipptScore <= 84
                             ? (setIpptIncentives(300), setIpptAward("Sliver"))
                             : (setIpptIncentives(500), setIpptAward("Gold"))
 
@@ -70,7 +72,7 @@ export default HomePage = () => {
                             {
                                 text: "Yes",
                                 // Replace stub with actual logout
-                                onPress: () => {new FireBaseStub().logoutUserStub(); redirectToLoginPageHandle()},
+                                onPress: () => {logout(); redirectToLoginPageHandle()},
                             },
                             {
                                 text: "Cancel",
