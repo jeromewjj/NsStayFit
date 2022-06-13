@@ -1,9 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from "@react-navigation/native";
-import { Text, Card } from '@ui-kitten/components';
-import { View } from 'react-native';
+import { Text, Card, Button } from '@ui-kitten/components';
+import { Alert, View } from 'react-native';
 import { StyleSheet } from 'react-native'
-import QueryIpptDatabase from '../../backend/homepage/GetIpptScore';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FireBaseStub from '../../backend/homepage/fireBaseStub';
+import { useNavigation } from "@react-navigation/native";
+import { getIpptScore } from '../../firebase.js';
 import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
 
 export default HomePage = () => {
@@ -14,12 +17,21 @@ export default HomePage = () => {
     const [fitnessQuote, setFitnessQuote] = useState("");
     const [authorQuote, setAuthorQuote] = useState("");
 
+
+    const navigation = useNavigation();
+
+    const redirectToLoginPageHandle = () => {
+        navigation.navigate("Login");
+    }
+
     useFocusEffect(
 
         useCallback(() => {
+            
             // To be replaced with the HTTP Request to query the database
-            var updatedIpptScore = new QueryIpptDatabase().getUserIpptScoreStub();
+            var updatedIpptScore = new FireBaseStub().getUserIpptScoreStub();
 
+            // var updatedIpptScore = getIpptScore();
             setIpptScore(updatedIpptScore);
 
             updatedIpptScore <= 50
@@ -38,11 +50,36 @@ export default HomePage = () => {
             setAuthorQuote(updatedQuote[1]);
         }, [])
     );
-
+    
     return (
         <View style={styles.layoutStyles}>
-            <View>
+
+            <View style={styles.topContainer}>
                 <Text style={styles.title}>Welcome Back!</Text>
+                <Button style={styles.logoutButton} appearance='ghost' accessoryRight={
+                    <MaterialCommunityIcons
+                    style={{alignItems: 'center', justifyContent: 'center', color: "#a12427"}}
+                    name="exit-to-app"
+                    size={22} 
+                    color="red" />
+                }
+                onPress={ () =>
+                    Alert.alert("Logout?",
+                        "Are you sure that you want to logout?",
+                        [
+                            {
+                                text: "Yes",
+                                // Replace stub with actual logout
+                                onPress: () => {new FireBaseStub().logoutUserStub(); redirectToLoginPageHandle()},
+                            },
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancelled logout action"),
+                                style:"cancel"
+                            },
+                        ])
+                }
+                ></Button>
             </View>
 
 
@@ -77,11 +114,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    topContainer: {
+        flexDirection: 'row',
+    },
+    logoutButton: {
+        width: 60,
+        height: 60,
+        borderRadius: 150,
+        marginRight: 10,
+        marginTop: 15
+    },
+
+
     title: {
       fontSize: 45,
       fontWeight: 'bold',
-      marginTop: 50,
+      marginTop: 60,
       textAlign: 'center',
+      marginLeft: 45,
+      color: "#a12427"
     },
 
 
