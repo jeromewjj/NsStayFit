@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+
 import { initializeApp } from 'firebase/app'
 import {getFirestore, collection, setDoc, addDoc, deleteDoc, doc, updateDoc, getDoc} from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from "firebase/auth";
@@ -17,8 +18,10 @@ const db = getFirestore();
 const colRef = collection(db, 'users')
 
 export function signup(firstName, lastName, email, contact, password, birthday) {
-  createUserWithEmailAndPassword(auth, email, password);
-  setDoc(doc(db, "users", auth.currentUser.uid), 
+  createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    setDoc(doc(db, "users", user.uid), 
     {
       First_Name: firstName,
       Last_Name: lastName,
@@ -33,6 +36,10 @@ export function signup(firstName, lastName, email, contact, password, birthday) 
       NS_Fit_URL: ""
     }
   )
+
+    // ...
+  });
+  
 }
 
 export function login(email, password) {
