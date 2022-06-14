@@ -1,9 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from "@react-navigation/native";
-import { Text, Card } from '@ui-kitten/components';
-import { View } from 'react-native';
-import { StyleSheet } from 'react-native'
-import QueryIpptDatabase from '../../backend/homepage/GetIpptScore';
+import { Text, Card, Button, Layout } from '@ui-kitten/components';
+import { Alert, View, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import FireBaseStub from '../../backend/homepage/fireBaseStub';
+import {useTailwind} from 'tailwind-rn';
+import { useNavigation } from "@react-navigation/native";
+import { getIpptScore, logout } from '../../firebase.js';
 import FitnessQuote from "../../backend/homepage/GetRandomFitnessQuote";
 
 export default HomePage = () => {
@@ -13,16 +16,24 @@ export default HomePage = () => {
     const [ipptAward, setIpptAward] = useState("");
     const [fitnessQuote, setFitnessQuote] = useState("");
     const [authorQuote, setAuthorQuote] = useState("");
+    const tailwind = useTailwind();
+
+    const navigation = useNavigation();
+
+    const redirectToLoginPageHandle = () => {
+        navigation.navigate("Login");
+    }
 
     useFocusEffect(
 
         useCallback(() => {
-            // To be replaced with the HTTP Request to query the database
-            var updatedIpptScore = new QueryIpptDatabase().getUserIpptScoreStub();
+            
+            // Firebase database query to get ippt score of logged in user
+            async function checkIpptScore() {
+                var updatedIpptScore = await getIpptScore();
+                setIpptScore(updatedIpptScore);
 
-            setIpptScore(updatedIpptScore);
-
-            updatedIpptScore <= 50
+                updatedIpptScore <= 50
                 ? (setIpptIncentives(0), setIpptAward("Fail"))
                 : updatedIpptScore <= 60
                     ? (setIpptIncentives(0), setIpptAward("Pass")) // Passed but without incentives
@@ -31,6 +42,8 @@ export default HomePage = () => {
                         : updatedIpptScore <= 84
                             ? (setIpptIncentives(300), setIpptAward("Sliver"))
                             : (setIpptIncentives(500), setIpptAward("Gold"))
+            }
+            checkIpptScore();
 
             // get random quotes
             var updatedQuote = new FitnessQuote().getRandomFitnessQuoteAuthor();
@@ -38,34 +51,63 @@ export default HomePage = () => {
             setAuthorQuote(updatedQuote[1]);
         }, [])
     );
-
+    
     return (
-        <View style={styles.layoutStyles}>
-            <View>
-                <Text style={styles.title}>Welcome Back!</Text>
-            </View>
+        <View style={tailwind('flex-grow')}>
 
+            {/* <View style={styles.topContainer}> */}
+            <Layout style={tailwind('bg-red-800 h-20 flex-row justify-center')}>
 
-            { ipptScore <= 50
-            
-                ? <View style={styles.failCircle}>
-                <Text style={styles.score}>{ipptScore}</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+                <Text style={tailwind('font-bold text-white text-2xl text-center top-8 left-20')}>Welcome Back!</Text>
+                <Button style={styles.logoutButton} appearance='ghost' accessoryRight={
+                    <MaterialCommunityIcons
+                    style={{alignItems: 'center', justifyContent: 'center', color: "#a12427"}}
+                    name="exit-to-app"
+                    size={22} 
+                    color="white" />
+                }
+                onPress={() =>
+                    Alert.alert("Logout?",
+                        "Are you sure that you want to logout?",
+                        [
+                            {
+                                text: "Yes",
+                                // Replace stub with actual logout
+                                onPress: () => {logout(); redirectToLoginPageHandle()},
+                            },
+                            {
+                                text: "Cancel",
+                                onPress: () => console.log("Cancelled logout action"),
+                                style:"cancel"
+                            },
+                        ])
+                }
+                ></Button>
+            </Layout>
 
-                : <View style={styles.passCircle}>
-                <Text style={styles.score}>{ipptScore}</Text>
-                <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
-            }
-            
-            <View>
-                <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
-            </View>
+            <Layout style={tailwind('flex-1 justify-center items-center')}>
 
-            <View>
-                <Card style={styles.tab}>
-                    <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
-                </Card>
-            </View>
+                { ipptScore <= 50
+                
+                    ? <View style={styles.failCircle}>
+                    <Text style={styles.score}>{ipptScore}</Text>
+                    <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+
+                    : <View style={styles.passCircle}>
+                    <Text style={styles.score}>{ipptScore}</Text>
+                    <Text style={styles.ipptScoreHeader}>IPPT Score</Text></View>
+                }
+                
+                <View>
+                    <Text style={styles.awardIncentives}>Award: {ipptAward}{'\n'}Expected Incentives: ${ipptIncentives}</Text>
+                </View>
+
+                <View>
+                    <Card style={styles.tab}>
+                        <Text category='h5'>“{fitnessQuote}” - {authorQuote}</Text>
+                    </Card>
+                </View>
+            </Layout>
         </View>
     );
 };
@@ -77,24 +119,36 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    topContainer: {
+        flexDirection: 'row',
+    },
+    logoutButton: {
+        width: 60,
+        height: 60,
+        borderRadius: 150,
+        marginLeft:110,
+        marginTop: 15
+    },
+
     title: {
       fontSize: 45,
       fontWeight: 'bold',
-      marginTop: 50,
+      marginTop: 60,
       textAlign: 'center',
+      marginLeft: 45,
+      color: "#a12427"
     },
-
 
     failCircle: {
         width: 250,
         height: 250,
         borderRadius: 125,
         borderWidth: 2,
-        borderColor: 'black',
+        borderColor: 'transparent',
         borderStyle: 'solid',
         justifyContent: 'center',
         backgroundColor: "#FAA0A0",
-        marginTop: 30,
+        marginTop: 5,
     },
 
     passCircle: {
@@ -102,11 +156,11 @@ const styles = StyleSheet.create({
         height: 250,
         borderRadius: 125,
         borderWidth: 2,
-        borderColor: 'black',
+        borderColor: 'transparent',
         borderStyle: 'solid',
         justifyContent: 'center',
         backgroundColor: "#83F52C",
-        marginTop: 30,
+        marginTop: 5,
     },
 
     score: {

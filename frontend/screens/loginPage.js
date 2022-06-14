@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import {useTailwind} from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -42,6 +42,12 @@ export default LoginPage = () => {
             style={styles.container}
             behavior="padding"
         >
+            <Image
+                source={require('../images/ns_stay_fit.png')}
+                fadeDuration={0}
+                // tintColor = "#a12427"
+                style={{height:200, width:220}}
+            /> 
             <View style={styles.inputContainer}>
             <TextInput
                 placeholder="Email"
