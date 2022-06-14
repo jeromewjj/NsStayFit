@@ -54,6 +54,14 @@
   top: 0.5rem
 }
 
+.right-8 {
+  right: 2rem
+}
+
+.left-12 {
+  left: 3rem
+}
+
 .left-10 {
   left: 2.5rem
 }
@@ -61,23 +69,78 @@
 .left-6 {
   left: 1.5rem
 }
+.left-5 {
+  left: 1.25rem
+}
+
+.left-4 {
+  left: 1rem
+}
 
 .left-3 {
   left: 0.75rem
+}
+.right-2 {
+  right: 0.5rem
 }
 
 .right-4 {
   right: 1rem
 }
 
+
+.left-1 {
+  left: 0.25rem
+}
+.bottom-2 {
+  bottom: 0.5rem
+}
+
+.bottom-4 {
+  bottom: 1rem
+}
+
+.bottom-1 {
+  bottom: 0.25rem
+}
 .left-20 {
   left: 5rem
 }
-
 .top-8 {
   top: 2rem
 }
 
+.left-20 {
+  left: 5rem
+}
+
+.bottom-8 {
+  bottom: 2rem
+}
+
+.bottom-16 {
+  bottom: 4rem
+}
+
+.right-6 {
+  right: 1.5rem
+}
+
+.right-1 {
+  right: 0.25rem
+}
+
+.right-10 {
+  right: 2.5rem
+}
+
+.top-12 {
+  top: 3rem
+}
+
+.top-9 {
+  top: 2.25rem
+}
 .bottom-1 {
   bottom: 0.25rem
 }
@@ -95,6 +158,16 @@
 .mx-8 {
   margin-left: 2rem;
   margin-right: 2rem
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem
+}
+
+.mx-32 {
+  margin-left: 8rem;
+  margin-right: 8rem
 }
 
 .mx-4 {
@@ -130,6 +203,9 @@
   margin-bottom: 0px
 }
 
+.mt-12 {
+  margin-top: 3rem
+}
 .mb-8 {
   margin-bottom: 2rem
 }
@@ -170,6 +246,17 @@
   height: 80%
 }
 
+.h-5 {
+  height: 1.25rem
+}
+
+.h-4 {
+  height: 1rem
+}
+
+.h-8 {
+  height: 2rem
+}
 .h-14 {
   height: 3.5rem
 }
@@ -178,8 +265,32 @@
   height: 1.5rem
 }
 
+.h-3 {
+  height: 0.75rem
+}
+
 .h-12 {
   height: 3rem
+}
+
+.h-14 {
+  height: 3.5rem
+}
+
+.h-24 {
+  height: 6rem
+}
+
+.h-44 {
+  height: 11rem
+}
+
+.h-28 {
+  height: 7rem
+}
+
+.h-1 {
+  height: 0.25rem
 }
 
 .w-0 {
@@ -210,12 +321,39 @@
   width: 80%
 }
 
+.w-3 {
+  width: 0.75rem
+}
 .w-12 {
   width: 3rem
 }
 
 .w-8 {
   width: 2rem
+}
+
+.w-16 {
+  width: 4rem
+}
+
+.w-24 {
+  width: 6rem
+}
+
+.w-5 {
+  width: 1.25rem
+}
+
+.w-12 {
+  width: 3rem
+}
+
+.w-9 {
+  width: 2.25rem
+}
+
+.w-6 {
+  width: 1.5rem
 }
 
 .w-60 {
@@ -236,6 +374,10 @@
 
 .flex-col {
   flex-direction: column
+}
+
+.flex-wrap {
+  flex-wrap: wrap
 }
 
 .content-center {
@@ -299,11 +441,20 @@
   background-color: rgb(217 217 217 / var(--tw-bg-opacity))
 }
 
+.bg-red-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity))
+}
+
 .bg-slate-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity))
 }
 
+.bg-\[\#ffffff\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity))
+}
 .bg-red-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(153 27 27 / var(--tw-bg-opacity))
@@ -342,6 +493,10 @@
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity))
+}
+
+.bg-transparent {
+  background-color: transparent
 }
 
 .p-2 {
