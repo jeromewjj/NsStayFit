@@ -90,6 +90,12 @@
 		}
 	},
 	"top-2": {
+
+		"style": {
+			"top": 8
+		}
+	},
+	"bottom-1": {
 		"style": {
 			"top": 8
 		}
@@ -97,6 +103,31 @@
 	"bottom-1": {
 		"style": {
 			"bottom": 4
+		}
+	},
+	"right-8": {
+		"style": {
+			"right": 32
+		}
+	},
+	"right-16": {
+		"style": {
+			"right": 64
+		}
+	},
+	"right-32": {
+		"style": {
+			"right": 128
+		}
+	},
+	"left-32": {
+		"style": {
+			"left": 128
+		}
+	},
+	"right-2": {
+		"style": {
+			"right": 8
 		}
 	},
 	"mx-40": {
@@ -390,8 +421,20 @@
 		}
 	},
 	"text-center": {
+	"text-left": {
+		"style": {
+			"textAlign": "left"
+		}
+	},
+	"text-center": {
 		"style": {
 			"textAlign": "center"
+		}
+	},
+	"text-start": {
+
+		"style": {
+			"textAlign": "start"
 		}
 	},
 	"text-2xl": {

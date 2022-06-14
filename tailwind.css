@@ -52,6 +52,16 @@
 
 .top-1 {
   top: 0.25rem
+
+}
+
+.left-3 {
+  left: 0.75rem
+}
+
+.left-4 {
+  left: 1rem
+
 }
 
 .left-3 {
@@ -76,6 +86,39 @@
 
 .bottom-1 {
   bottom: 0.25rem
+}
+
+.right-8 {
+  right: 2rem
+}
+
+.right-16 {
+  right: 4rem
+}
+
+
+.top-9 {
+  top: 2.25rem
+}
+
+.top-2 {
+  top: 0.5rem
+}
+
+.bottom-1 {
+  bottom: 0.25rem
+
+.right-32 {
+  right: 8rem
+}
+
+.left-32 {
+  left: 8rem
+}
+
+.right-2 {
+  right: 0.5rem
+
 }
 
 .mx-40 {
@@ -287,8 +330,18 @@
   padding: 1rem
 }
 
+
+
+.text-left {
+  text-align: left
+}
+
 .text-center {
   text-align: center
+}
+
+.text-start {
+  text-align: start
 }
 
 .text-2xl {
