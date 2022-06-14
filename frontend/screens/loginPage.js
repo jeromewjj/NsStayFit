@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import {useTailwind} from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { signup, login } from '../../firebase';
+import { signup, login, logout } from '../../firebase';
 //import { registerUser } from '../../database'
 
 export default LoginPage = () => {
@@ -14,11 +14,12 @@ export default LoginPage = () => {
     const navigation = useNavigation()
 
     
+
     useEffect(() => {
       const auth = getAuth();
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          navigation.navigate("View Ippt Score")
+          navigation.navigate("HomeNavigator")
         }
       })
   
@@ -29,8 +30,8 @@ export default LoginPage = () => {
     
     const handleLogin = () => {
         login(email, password)
+      
     }
-    
     
     const handleSignUp = () => {
         navigation.navigate("Register")
