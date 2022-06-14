@@ -32,19 +32,18 @@ export default HomePage = () => {
             async function checkIpptScore() {
                 var updatedIpptScore = await getIpptScore();
                 setIpptScore(updatedIpptScore);
-            }
 
-            checkIpptScore();
-
-            ipptScore <= 50
+                updatedIpptScore <= 50
                 ? (setIpptIncentives(0), setIpptAward("Fail"))
-                : ipptScore <= 60
+                : updatedIpptScore <= 60
                     ? (setIpptIncentives(0), setIpptAward("Pass")) // Passed but without incentives
-                    : ipptScore <= 74
+                    : updatedIpptScore <= 74
                         ? (setIpptIncentives(200), setIpptAward("Pass with Incentive"))
-                        : ipptScore <= 84
+                        : updatedIpptScore <= 84
                             ? (setIpptIncentives(300), setIpptAward("Sliver"))
                             : (setIpptIncentives(500), setIpptAward("Gold"))
+            }
+            checkIpptScore();
 
             // get random quotes
             var updatedQuote = new FitnessQuote().getRandomFitnessQuoteAuthor();
