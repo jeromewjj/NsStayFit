@@ -75,8 +75,8 @@ export function updateRunning(running_time) {
   )
 }
 
-export function updateIpptScore(ipptScore) {
-  updateDoc(doc(db, "users", auth.currentUser.uid), 
+export async function updateIpptScore(ipptScore) {
+  await updateDoc(doc(db, "users", auth.currentUser.uid), 
     {
       Ippt_Score: ipptScore
     }

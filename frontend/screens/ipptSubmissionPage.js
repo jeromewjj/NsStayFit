@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {useTailwind} from 'tailwind-rn';
+import { useFocusEffect } from "@react-navigation/native";
 import { Button, List, ListItem, Layout, Input, Text, Divider, Spinner  } from '@ui-kitten/components';
 import { setNestedObjectValues, useFormik } from "formik";
 import { Alert, Keyboard, TouchableWithoutFeedback, Image, View  } from "react-native";
@@ -10,6 +11,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { ipptSchema } from "./validationSchema.js"
 import { calculateIppt } from '../compenents/ippt.js';
+import { updateIpptScore } from '../../firebase.js';
 
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
@@ -30,6 +32,9 @@ export default SubmitIpptPage = () => {
 
         onSubmit: () => {
             //TODO: upload data to database
+            const runTime =
+            parseInt(values.runningMin) * 60 +
+            parseInt(values.runningSec);
             formSubmissionVerification()
         },
 
@@ -51,10 +56,20 @@ export default SubmitIpptPage = () => {
             parseInt(values.runningMin) * 60 +
             parseInt(values.runningSec);
 
-        const ipptPoints = calculateIppt(21, parseInt(values.pushup), parseInt(values.situp), runTime)
+        var ipptPoints = -1;
+
+        console.log("Received pushups: " + values.pushup);
+        console.log("Received situp: " + values.situp);
+        console.log("Received runTime: " + runTime);
+
+        
+
+        ipptPoints = calculateIppt(25, parseInt(values.pushup), parseInt(values.situp), runTime, 'male');
+    
         // update ipptPoints
         setValues({ ...values, ipptPoints})
-        console.log("This is the ippt score: " + values.ipptPoints)
+        console.log("This is the ippt score: " + values.ipptPoints);
+        updateIpptScore(values.ipptPoints);
     }
 
     const formSubmissionVerification = () => {
@@ -65,7 +80,7 @@ export default SubmitIpptPage = () => {
                 [
                     {
                         text: "Confirm",
-                        onPress: () => {console.log("Submitting to database!!"), getIpptScore(), handleNavigation()},
+                        onPress: () => {console.log("Submitting to database!!"), getIpptScore(), updateIpptScore(values.ipptPoints), handleNavigation()},
                     },
                     {
                         text: "Cancel",

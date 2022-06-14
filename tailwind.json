@@ -90,6 +90,12 @@
 		}
 	},
 	"top-2": {
+
+		"style": {
+			"top": 8
+		}
+	},
+	"bottom-1": {
 		"style": {
 			"top": 8
 		}
@@ -414,6 +420,7 @@
 			"paddingLeft": 16
 		}
 	},
+	"text-center": {
 	"text-left": {
 		"style": {
 			"textAlign": "left"
@@ -425,6 +432,7 @@
 		}
 	},
 	"text-start": {
+
 		"style": {
 			"textAlign": "start"
 		}

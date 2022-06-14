@@ -23,7 +23,7 @@ export default RegistrationPage = () => {
                 [
                     {
                         text: "Confirm",
-                        onPress: () => {handleSignUp},
+                        onPress: () => {handleSignUp()},
                     },
                     {
                         text: "Cancel",
