@@ -1,3 +1,13 @@
+.top-9 {
+  top: 2.25rem
+}
+
+.right-1 {
+  right: 0.25rem
+}
+
+.top-8 {
+  top: 2rem
 .absolute {
   position: absolute
 }
@@ -12,6 +22,10 @@
 
 .left-2 {
   left: 0.5rem
+}
+
+.left-8 {
+  left: 2rem
 }
 
 .right-40 {
@@ -54,6 +68,8 @@
   top: 0.5rem
 }
 
+.top-20 {
+  top: 5rem
 .right-8 {
   right: 2rem
 }
@@ -73,6 +89,20 @@
   left: 1.25rem
 }
 
+.left-40 {
+  left: 10rem
+}
+
+.right-8 {
+  right: 2rem
+}
+
+.left-20 {
+  left: 5rem
+}
+
+.left-32 {
+  left: 8rem
 .left-4 {
   left: 1rem
 }
@@ -168,6 +198,11 @@
 .mx-32 {
   margin-left: 8rem;
   margin-right: 8rem
+}
+
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem
 }
 
 .mx-4 {
@@ -421,6 +456,9 @@
   border-color: rgb(0 0 0 / var(--tw-border-opacity))
 }
 
+.bg-red-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(153 27 27 / var(--tw-bg-opacity))
 .border-red-800 {
   --tw-border-opacity: 1;
   border-color: rgb(153 27 27 / var(--tw-border-opacity))
@@ -519,6 +557,11 @@
   text-align: center
 }
 
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem
+}
+
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem
@@ -527,11 +570,6 @@
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem
-}
-
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem
 }
 
 .text-3xl {
@@ -555,6 +593,11 @@
 
 .font-semibold {
   font-weight: 600
+}
+
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity))
 }
 
 .text-red-600 {

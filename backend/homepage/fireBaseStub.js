@@ -1,6 +1,6 @@
 import { Component } from "react/cjs/react.production.min";
 
-export default class QueryIpptDatabase extends Component {
+export default class FireBaseStub extends Component {
 
     getUserIpptScoreStub = () => {
 
@@ -8,5 +8,11 @@ export default class QueryIpptDatabase extends Component {
         
         // console.log(RandomNumber);
         return RandomNumber
+    }
+
+    logoutUserStub = () => {
+
+        console.log("Logging out from firebase")
+        // does nothing
     }
 }
