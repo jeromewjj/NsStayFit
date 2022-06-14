@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
-import React, {useState} from 'react';
-import { Button, Text, View, KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { signup } from '../../firebase';
+import { Alert, Button, Text, View, KeyboardAvoidingView, StyleSheet, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 //import { DateTimePicker  from '@react-native-community/datetimepicker'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 export default RegistrationPage = () => {
@@ -8,15 +9,46 @@ export default RegistrationPage = () => {
     const [lastName, setLastName] = useState("");
     const [emailAddr, setEmailAddr] = useState("");
     const [contactNo, setContactNo] = useState("");
-    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [open, setOpen] = useState(false)
     const navigation = useNavigation();
     const [date, setDate] = useState(new Date());
-    const [dateString, setDateString] = useState('');
+    const [dateString, setDateString] = useState("");
+
+    const registrationValidation = () => {
+        if ( password.length >= 8 && password.length <= 50 ) {
+            Alert.alert(
+                "Confirm Registration?",
+                "Are you sure you want to submit?",
+                [
+                    {
+                        text: "Confirm",
+                        onPress: () => {handleSignUp},
+                    },
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancelled!!"),
+                        style:"cancel"
+                    },
+                ],
+                { cancelable: true }
+            );
+        } else if (password.length < 8 || password.length > 50) {
+            Alert.alert(
+                "Warning invalid password!",
+                "Password must contain minimum 8 characters and maximum 50 characters. Please fill in the valid password!"
+            )
+        } else {
+            Alert.alert(
+                "Warning invalid password!",
+                "Passwords are not the same! Please fill in the valid password!"
+            )
+        }
+      }
+  
+
     const returnBack = () => {
-        navigation.navigate("Register")
+        navigation.navigate("Login");
     }
 
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -36,8 +68,15 @@ export default RegistrationPage = () => {
         )
         hideDatePicker();
     };
+
+    const handleSignUp = () => {
+        //returnBack();
+        signup(firstName, lastName, emailAddr, contactNo, password, date);
+        navigation.navigate("Login");
+    }
     
     return (
+        <ScrollView>
         <KeyboardAvoidingView
             style={styles.container}
             behavior="padding"
@@ -48,16 +87,21 @@ export default RegistrationPage = () => {
                 <TextInput style={styles.input} 
                     placeholder="Enter first name" 
                     value={firstName} 
-                    onChange={(text) => setFirstName(text)} />
+                    onChangeText={(text) => setFirstName(text)} />
                 <Text style={styles.fieldTitle}>Last Name</Text>
                 <TextInput style={styles.input} 
                     placeholder="Enter last name" 
                     value={lastName} 
-                    onChange={(text) => setLastName(text)}/>
+                    onChangeText={(text) => setLastName(text)}/>
                 <Text style={styles.fieldTitle}>Date Of Birth</Text>
                 <Text style={styles.date}>{dateString}</Text>
                 <View>
-                    <Button title="Select Date of Birth" onPress={showDatePicker} />
+                <TouchableOpacity
+                    onPress={showDatePicker}
+                    style={styles.button}
+                >
+                    <Text style={styles.buttonText}>Select Date of Birth</Text>
+                </TouchableOpacity>
                     <DateTimePickerModal
                         isVisible={isDatePickerVisible}
                         mode="date"
@@ -69,33 +113,29 @@ export default RegistrationPage = () => {
                 <TextInput style={styles.input} 
                     placeholder="Enter email address" 
                     value={emailAddr} 
-                    onChange={(text) => setEmailAddr(text)}/>
+                    onChangeText={(text) => setEmailAddr(text)}/>
                 <Text style={styles.fieldTitle}>Contact Number</Text>
                 <TextInput style={styles.input} 
                     placeholder="Enter contact number" 
                     value={contactNo} 
-                    onChange={(text) => setContactNo(text)}/>
-                <Text style={styles.fieldTitle}>Username</Text>
-                <TextInput style={styles.input} 
-                    placeholder="Enter username" 
-                    value={username} 
-                    onChange={(text) => setUsername(text)}/>
+                    onChangeText={(text) => setContactNo(text)}/>
                 <Text style={styles.fieldTitle}>Password</Text>
                 <TextInput style={styles.input} 
                     placeholder="Enter password" 
                     secureTextEntry = {true}
                     value={password} 
-                    onChange={(text) => setPassword(text)}/>
+                    onChangeText={(text) => setPassword(text)}/>
+                    
                 <Text style={styles.fieldTitle}>Confirm Password</Text>
                 <TextInput style={styles.input} 
                     placeholder="Confirm password" 
                     secureTextEntry = {true} 
                     value={confirmPassword} 
-                    onChange={(text) => setConfirmPassword(text)}/>
+                    onChangeText={(text) => setConfirmPassword(text)}/>
             </View>
             <View style={styles.buttonContainer}>
             <TouchableOpacity
-                //onPress={createAccount}
+                onPress={registrationValidation}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Register</Text>
@@ -108,7 +148,8 @@ export default RegistrationPage = () => {
             </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
-        );
+        </ScrollView>
+    );
 }
 
 
