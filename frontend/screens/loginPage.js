@@ -1,19 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
-import {useTailwind} from 'tailwind-rn';
+import { useTailwind } from 'tailwind-rn';
 import { Layout } from '@ui-kitten/components';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { signup, login, logout } from '../../firebase';
 //import { registerUser } from '../../database'
+import { loginSchema } from "./validationSchema.js";
+import { useFormik } from "formik";
 
 export default LoginPage = () => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const tailwind = useTailwind();
+    const [loginError, setLoginError] = useState("");
+    const { handleSubmit, values, errors, touched, handleChange } = useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+
+      onSubmit: async (values) => {
+        try {
+          await login(values.email, values.password);
+
+          // Remove error message and proceed to Homepage
+          setLoginError("");
+        } catch (e) {
+          setLoginError("Email or password is incorrect!");
+        }
+      },
+
+      validationSchema: loginSchema,
+    });
 
     const navigation = useNavigation()
-
-    
 
     useEffect(() => {
       const auth = getAuth();
@@ -26,12 +45,6 @@ export default LoginPage = () => {
       return unsubscribe
     }, [])
     
-
-    
-    const handleLogin = () => {
-        login(email, password)
-      
-    }
     
     const handleSignUp = () => {
         navigation.navigate("Register")
@@ -43,7 +56,7 @@ export default LoginPage = () => {
             behavior="padding"
         >
             <Image
-                source={require('../images/ns_stay_fit.png')}
+                source={require('../images/ns_stayfit_icon.png')}
                 fadeDuration={0}
                 // tintColor = "#a12427"
                 style={{height:200, width:220}}
@@ -51,22 +64,31 @@ export default LoginPage = () => {
             <View style={styles.inputContainer}>
             <TextInput
                 placeholder="Email"
-                value={email}
-                onChangeText={text => setEmail(text)}
+                value={values.email}
+                onChangeText={handleChange("email")}
                 style={styles.input}
             />
+
+            {errors.email && touched.email ? (
+            <Text style={tailwind("left-32 text-red-600")}>{errors.email}</Text>
+            ) : null}
+
             <TextInput
                 placeholder="Password"
-                value={password}
-                onChangeText={text => setPassword(text)}
+                value={values.password}
+                onChangeText={handleChange("password")}
                 style={styles.input}
                 secureTextEntry
             />
             </View>
-    
-            <View style={styles.buttonContainer}>
+            
+            {errors.password && touched.password ? (
+            <Text style={tailwind("text-red-600 right-2")}>{errors.password}</Text>
+            ) : null}
+
+           <View style={styles.buttonContainer}>
             <TouchableOpacity
-                onPress={handleLogin}
+                onPress={handleSubmit}
                 style={styles.button}
             >
                 <Text style={styles.buttonText}>Login</Text>
@@ -77,6 +99,9 @@ export default LoginPage = () => {
             >
                 <Text style={styles.buttonOutlineText}>Register</Text>
             </TouchableOpacity>
+            {loginError ? (
+              <Text style={tailwind("text-red-600")}>{loginError}</Text>
+            ) : null}
             </View>
         </KeyboardAvoidingView>
     );
