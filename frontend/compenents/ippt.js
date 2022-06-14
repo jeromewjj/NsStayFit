@@ -6,6 +6,8 @@ const calculateIppt = (age, pushUpCount, sitUpCount, runTime) => {
   
     const ipptPoints = pushUpScore + sitUpScore + runScore;
     
+    console.log("wh" + ipptPoints);
+
     return ipptPoints;
   };
   
