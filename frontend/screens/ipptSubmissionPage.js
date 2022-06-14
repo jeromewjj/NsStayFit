@@ -10,6 +10,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { ipptSchema } from "./validationSchema.js"
 import { calculateIppt } from '../compenents/ippt.js';
+import { updateIpptScore } from '../../firebase.js';
 
 export default SubmitIpptPage = () => {
     const tailwind = useTailwind();
@@ -52,9 +53,12 @@ export default SubmitIpptPage = () => {
             parseInt(values.runningSec);
 
         const ipptPoints = calculateIppt(21, parseInt(values.pushup), parseInt(values.situp), runTime)
+
         // update ipptPoints
         setValues({ ...values, ipptPoints})
         console.log("This is the ippt score: " + values.ipptPoints)
+
+        updateIpptScore(values.ipptPoints);
     }
 
     const formSubmissionVerification = () => {
